@@ -38,25 +38,12 @@ Enemy.prototype.update = function(dt) {
         this.x = -101;
     }
 
-    if ( this.detectCollision(player) ){
-        console.log("objects collide");
-    }
 }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
-
-
-Enemy.prototype.detectCollision = function(r2) {
-    // body...
-    return !(
-    r2.x > this.brx || 
-    r2.brx < this.x || 
-    r2.y > this.bry ||
-    r2.bry < this.y);
-};
 
 
 // Now write your own player class
@@ -67,8 +54,8 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
     
     // initial position
-    this.col = 0;
-    this.row = 0;
+    this.col = 2;
+    this.row = 5;
 
     // top left x and y
     this.x = this.col * 101;
@@ -107,8 +94,7 @@ Player.prototype.handleInput = function(keyCode) {
     // body...
     console.log(keyCode);
 
-    if ( keyCode === "left" && this.col > 0 ) {
-
+    if ( keyCode === "left") {
         if ( this.col > 0 ) {
             this.col = this.col - 1;
             }
@@ -131,9 +117,7 @@ Player.prototype.handleInput = function(keyCode) {
     } else {
         console.log('invalid move or key: ' + keyCode);
     }
-
     this.getPosition();
-
 };
 
 // Now instantiate your objects.
@@ -148,13 +132,14 @@ var enemy4 = new Enemy(2, 1.5);
 var allEnemies = [enemy1, enemy2, enemy3, enemy4];
 var player = new Player();
 
-function collisionDetection(r1, r2){
-    return !(
-        r2.x > r1.brx || 
-        r2.brx < r1.x || 
-        r2.y > r1.bry ||
-        r2.bry < r1.y);
-};
+
+// function collisionDetection(r1, r2){
+//     return !(
+//         r2.x > r1.brx || 
+//         r2.brx < r1.x || 
+//         r2.y > r1.bry ||
+//         r2.bry < r1.y);
+// };
 
 
 // This listens for key presses and sends the keys to your
