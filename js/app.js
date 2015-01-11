@@ -8,7 +8,6 @@ var Enemy = function(row, speed) {
     this.speed = speed;
     this.sprite = 'images/enemy-bug.png';
     
-    this.col = 0;
     this.row = row;
 
     this.x = -101;
@@ -30,6 +29,7 @@ Enemy.prototype.update = function(dt) {
     }
 
     else {
+        //console.log(this.width);
         this.x = -101;
     }
 
