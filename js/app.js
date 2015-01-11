@@ -1,11 +1,19 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(row, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
+    this.speed = speed;
     this.sprite = 'images/enemy-bug.png';
+    
+    this.col = 0;
+    this.row = row;
+
+    this.x = -101;
+    this.y = this.row * 83;
+
 }
 
 // Update the enemy's position, required method for game
@@ -14,6 +22,17 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    // start x at 0
+    // console.log('enemy.x: ' + this.x);
+    if (this.x < 505 ) {
+        this.x = this.x + (100 * dt) * this.speed;
+    }
+
+    else {
+        this.x = -101;
+    }
+
 }
 
 // Draw the enemy on the screen, required method for game
@@ -25,11 +44,83 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
+var Player = function() {
+    this.sprite = 'images/char-boy.png';
+    
+    // initial position
+    this.col = 2;
+    this.row = 5;
+
+    this.x = this.col * 101;
+    this.y = this.row * 83;
+
+}
+
+Player.prototype.update = function() {
+    // change x, y to current col, row
+    // x = col * 101, y = row * 83
+    this.x = this.col * 101;
+    this.y = this.row * 83;
+}
+
+Player.prototype.render = function() {
+    // body...
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Player.prototype.getPosition = function() {
+    // body...
+    console.log('position: (' + this.col + ',' + this.row + ')');
+};
+
+Player.prototype.handleInput = function(keyCode) {
+    // body...
+    if ( keyCode === "left" && this.col > 0 ) {
+
+        if ( this.col > 0 ) {
+            this.col = this.col - 1;
+            }
+        console.log('left');
+        this.getPosition();
+    } else if ( keyCode === "right") {
+        if ( this.col < 4 ) {
+            this.col = this.col + 1;
+        }
+        console.log('right');
+        this.getPosition();
+
+    } else if ( keyCode === "up") {
+        if ( this.row > 0 ) {
+            this.row = this.row - 1;
+        }
+        console.log('up');
+        this.getPosition();
+
+    } else if ( keyCode === "down") {
+        if ( this.row < 5 ) { 
+            this.row = this.row + 1;
+        }
+        console.log('down');
+        this.getPosition();
+
+    } else {
+        console.log('typed: ' + keyCode);
+        this.getPosition();
+    }
+
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
+var enemy1 = new Enemy(1, 1);
+var enemy2 = new Enemy(2, 2);
+var enemy3 = new Enemy(3, 1.2);
+var enemy4 = new Enemy(2, 1.5);
+
+var allEnemies = [enemy1, enemy2, enemy3, enemy4];
+var player = new Player();
 
 
 // This listens for key presses and sends the keys to your
