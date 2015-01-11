@@ -133,14 +133,6 @@ var allEnemies = [enemy1, enemy2, enemy3, enemy4];
 var player = new Player();
 
 
-// function collisionDetection(r1, r2){
-//     return !(
-//         r2.x > r1.brx || 
-//         r2.brx < r1.x || 
-//         r2.y > r1.bry ||
-//         r2.bry < r1.y);
-// };
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
