@@ -11,23 +11,18 @@ var Enemy = function(row, speed) {
     // a helper we've provided to easily load images
     this.speed = speed;
     this.sprite = 'images/enemy-bug.png';
-    this.row = row;
-
+    
+    // set row + image offset
+    // align image to middle of row
     this.offset = 18;
-    this.yOffset = 72;
+    this.y = row * 83 - this.offset;
 
     // set initial enemy position left of canvas
-    // and set enemy row
     this.x = -101;
-    this.y = this.row * 83 - this.offset;
 
-    // // right, bottom x, y bounding box
-    // this.left = this.x; // left edge of current column
-    // this.top = this.y + this.yOffset;  // top edge of current column.
-    // this.right = this.x + 101;
-    // this.bottom = this.y + 80 + this.yOffset;
+    //set yOffset for bounding box
+    this.yOffset = 75;
 }
-
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -36,30 +31,31 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     // x = col * 101, y = row * 83
-    // check if image hasn't wrapped
+    
+    // check if image hasn't wrapped off right side of screen
     if (this.x < 505 ) {
         this.x = this.x + (100 * dt) * this.speed;
     }
-
+    // reset x to left side of screen if wrapped
     else {
-        // reset x to left side of screen if wrapped
         this.x = -101;
     }
 
     // set bounding box
+    this.boxWidth = 100;
+    this.boxHeight = 70;
+
     this.left = this.x; // left edge of current column
     this.top = this.y + this.yOffset;  // top edge of current column.
-    this.right = this.x + 101;
-    // set box height to 78 instead of 83
-    // to prevent collisions above or below rows
-    this.bottom = this.y + 78 + this.yOffset;
+    this.right = this.x + this.boxWidth;
+    this.bottom = this.y + this.boxHeight;
 
 }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.strokeStyle = "#FF0000";
-    ctx.strokeRect(this.left, this.top, 101, 78);
+    ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
@@ -76,17 +72,11 @@ var Player = function() {
 
     // nudge player up a bit, because image size
     this.rowOffset = 7;
-    this.yOffset = 60;
 
-    // // top left image origin
-    // this.x = this.col * 101;
-    // this.y = this.row * 83  - this.rowOffset;
-    
-    // // bounding box coords, diff than images
-    // this.left = this.x; // left edge of current column
-    // this.top = this.y + this.yOffset;  // top edge of current column.
-    // this.right = this.x + 101;
-    // this.bottom = this.y + 83 + this.yOffset;
+    // offset for bounding box
+    this.yOffset = 60;
+    // nudge box closer to character
+    this.xOffset = 16;
 }
 
 Player.prototype.update = function() {
@@ -97,32 +87,41 @@ Player.prototype.update = function() {
     this.y = this.row * 83 - this.rowOffset;
 
     // bounding box values
-    this.left = this.x; // left edge of current column
-    this.top = this.y + this.yOffset;  // top edge of current column.
-    this.right = this.x + 101;
-    this.bottom = this.y + 83 + this.yOffset;
+    // top: The y-value of the top of the rectangle
+    // bottom: the y-value of the bottom of the rectangle
+    // right: the x-value of the right side of the rectangle
+    // left: the x-value of the left side of the rectangle
 
+    this.boxWidth = 86 - this.xOffset;;
+    this.boxHeight = 83;
+    this.left = this.x + this.xOffset;
+    this.top = this.y + this.yOffset;
+    this.right = this.x + this.boxWidth;
+    this.bottom = this.y + this.boxHeight;
 }
 
 Player.prototype.render = function() {
-    // body...
     ctx.strokeStyle = "#FF0000";
-    ctx.strokeRect(this.left, this.top, 101, 83);
+    ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 
 Player.prototype.getPosition = function() {
-    // body...
     console.log('Player Position: (col:' + this.col + ',row:' 
         + this.row + ')');
     console.log('left, top: ' + this.x + ',' + this.y );
     console.log('right, bottom: ' + this.right + ',' + this.bottom );
 }
 
+Player.prototype.reset = function() {
+    // body...
+    this.col = 2;
+    this.row = 5;
+};
+
 
 Player.prototype.handleInput = function(keyCode) {
-    // body...
     // refactor to switch?
     console.log(keyCode);
 
@@ -150,49 +149,29 @@ Player.prototype.handleInput = function(keyCode) {
         console.log('invalid move or key: ' + keyCode);
     }
 
-    // buggy, as it doesn't show the new x,y
-    // shows previous x,y
+    // buggy, shows previous, not current location
+    // since update isn't called yet.
     this.getPosition();
 }
-
-
-
-// what to do with Bounding Box?
-// bounding box class
-var BoundingBox = function() {
-    this.left;   // upper left x
-    this.top;   // upper left y
-    this.right;  // bottom right x  
-    this.bottom;  // bottom right y
-}
-
-BoundingBox.prototype.getBoundingBox = function() {
-    // body...
-    return [this.left, this.top, this.right, this.bottom];
-}
-
 
 function checkCollisions() {
         // console.log('in check collision');
         // loop through enemies, check pos with player
+        // var result = false;
+        var collision = false;
         allEnemies.forEach(function(enemy) {
             if ( intersectRect(enemy, player) ) {
-             console.log("objects collide");
+             /// console.log("objects collide");
+             collision = true;
             }
         });
+
+        // bug: only tells you if there was a collision
+        // doesn't break at collison
+        // doesn't report where collision was
+        return collision;
     }
 
-// intersectRect takes two rectangle objects
-// of the form:
-// r1 = {
-//      top: // The y-value of the top of the rectangle
-//      bottom: // the y-value of the bottom of the rectangle
-//      right: // the x-value of the right side of the rectangle
-//      left: // the x-value of the left side of the rectangle
-// };
-//
-// 'r2' is structured the same.
-//
 // intersectRect returns a boolean indicating
 // whether the two rectangles 'r1' and 'r2'
 // intersect each other.
@@ -216,7 +195,7 @@ intersectRect = function(r1, r2) {
 
 var enemy1 = new Enemy(1, 1);
 var enemy2 = new Enemy(2, 2);
-var enemy3 = new Enemy(3, 1.2);
+var enemy3 = new Enemy(3, 1.25);
 var enemy4 = new Enemy(2, 1.5);
 
 var allEnemies = [enemy1, enemy2, enemy3, enemy4];
