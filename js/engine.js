@@ -39,9 +39,9 @@ var Engine = ( function(global) {
     * instructions at different speeds we need a constant value that
     * would be the same for everyone (regardless of how fast their
     * computer is) - hurray time!
-    */
-    var now = Date.now(),
-    dt = (now - lastTime) / 1000.0;
+*/
+var now = Date.now(),
+dt = (now - lastTime) / 1000.0;
 
     /* Call our update/render functions, pass along the time delta to
     * our update function since it may be used for smooth animation.
@@ -58,8 +58,8 @@ var Engine = ( function(global) {
     * function again as soon as the browser is able to draw another frame.
     */
     win.requestAnimationFrame(main);
-    
-    };
+
+}
 
     /* This function does some initial setup that should only occur once,
     * particularly setting the lastTime variable that is required for the
@@ -69,7 +69,7 @@ var Engine = ( function(global) {
         reset();
         lastTime = Date.now();
         main();
-    };
+    }
 
     /* This function is called by main (our game loop) and itself calls all
     * of the functions which may need to update entity's data. Based on how
@@ -79,13 +79,12 @@ var Engine = ( function(global) {
     * it commented out - you may or may not want to implement this
     * functionality this way (you could just implement collision detection
     * on the entities themselves within your app.js file).
-    */
-    function update(dt) {
+*/
+function update(dt) {
 
-        updateEntities(dt);
-
-        checkCollisions();
-    };
+    updateEntities(dt);
+    checkCollisions();
+}
 
     /* This is called by the update function  and loops through all of the
     * objects within your allEnemies array as defined in app.js and calls
@@ -99,7 +98,7 @@ var Engine = ( function(global) {
             enemy.update(dt);
         });
         player.update();
-    };
+    }
 
     /* This function initially draws the "game level", it will then call
     * the renderEntities function. Remember, this function is called every
@@ -136,18 +135,17 @@ var Engine = ( function(global) {
         * so that we get the benefits of caching these images, since
         * we're using them over and over.
         */
-        ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+            ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-
         renderEntities();
-    };
+    }
 
 /* This function is called by the render function and is called on each game
 * tick. It's purpose is to then call the render functions you have defined
 * on your enemy and player entities within app.js
 */
-    function renderEntities() {
+function renderEntities() {
     /* Loop through all of the objects within the allEnemies array and call
     * the render function you have defined.
     */
@@ -156,7 +154,7 @@ var Engine = ( function(global) {
     });
 
     player.render();
-    };
+}
 
     /* This function does nothing but it could have been a good place to
     * handle game reset states - maybe a new game menu or a game over screen
@@ -164,54 +162,7 @@ var Engine = ( function(global) {
     */
     function reset() {
     // noop
-    };
-
-
-    function checkCollisions() {
-
-        // console.log('in check collision');
-        // loop through enemies, check pos with player
-        var result = false;
-
-        allEnemies.forEach(function(enemy) {
-
-            // l1 = left 1, r1 = right 1
-            var l1 = {
-                'x': enemy.x,
-                'y': enemy.y
-            };
-
-            var r1 = {
-                'x': enemy.brx,
-                'y': enemy.bry 
-            };
-
-            // l2 = left 2, r2 = right 2
-            var l2 = {
-                'x': player.x,
-                'y': player.y
-            };
-
-            var r2 = {
-                'x': player.brx,
-                'y': player.bry
-            };
-
-            // console.log(l1.x);
-            // console.log(r2.y);
-
-            // if one rectangle is left of another
-            if ( l1.x > r2.x || l2.x > r1.x ) {
-                return false;
-            // If one rectangle is above other
-            } else if ( l1.y < r2.y || l2.y < r1.y ) {
-                return false;
-            } else {
-            console.log('objects collide!');
-                return true;
-            }
-        });
-    };
+}
 
 
     /* Go ahead and load all of the images we know we're going to need to
