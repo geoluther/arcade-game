@@ -10,10 +10,16 @@ var Enemy = function(row, speed) {
     
     this.row = row;
 
+    // top left x and y
+    // initialize enemy off screen
     this.x = -101;
     this.y = this.row * 83;
 
+    // bottom right x and y
+    this.brx = this.x + 101;
+    this.bry = this.brx + 83;
 }
+
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -22,23 +28,36 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    // start x at 0
-    // console.log('enemy.x: ' + this.x);
+    // check if image hasn't wrapped
     if (this.x < 505 ) {
         this.x = this.x + (100 * dt) * this.speed;
     }
 
     else {
-        //console.log(this.width);
+        // reset x to left side of screen if wrapped
         this.x = -101;
     }
 
+    if ( this.detectCollision(player) ){
+        console.log("objects collide");
+    }
 }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+
+
+Enemy.prototype.detectCollision = function(r2) {
+    // body...
+    return !(
+    r2.x > this.brx || 
+    r2.brx < this.x || 
+    r2.y > this.bry ||
+    r2.bry < this.y);
+};
+
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -48,12 +67,16 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
     
     // initial position
-    this.col = 2;
-    this.row = 5;
+    this.col = 0;
+    this.row = 0;
 
+    // top left x and y
     this.x = this.col * 101;
     this.y = this.row * 83;
 
+    // bottom rigth x and y
+    this.brx = this.x + 101;
+    this.bry = this.y + 83;
 }
 
 Player.prototype.update = function() {
@@ -61,6 +84,10 @@ Player.prototype.update = function() {
     // x = col * 101, y = row * 83
     this.x = this.col * 101;
     this.y = this.row * 83;
+
+    this.brx = this.x + 101;
+    this.bry = this.y + 83;
+
 }
 
 Player.prototype.render = function() {
@@ -71,42 +98,41 @@ Player.prototype.render = function() {
 Player.prototype.getPosition = function() {
     // body...
     console.log('position: (' + this.col + ',' + this.row + ')');
+    console.log('top left: ' + this.x + ',' + this.y );
+    console.log('bottom right: ' + this.brx + ',' + this.bry );
 };
+
 
 Player.prototype.handleInput = function(keyCode) {
     // body...
+    console.log(keyCode);
+
     if ( keyCode === "left" && this.col > 0 ) {
 
         if ( this.col > 0 ) {
             this.col = this.col - 1;
             }
-        console.log('left');
-        this.getPosition();
+
     } else if ( keyCode === "right") {
         if ( this.col < 4 ) {
             this.col = this.col + 1;
         }
-        console.log('right');
-        this.getPosition();
 
     } else if ( keyCode === "up") {
         if ( this.row > 0 ) {
             this.row = this.row - 1;
         }
-        console.log('up');
-        this.getPosition();
 
     } else if ( keyCode === "down") {
         if ( this.row < 5 ) { 
             this.row = this.row + 1;
         }
-        console.log('down');
-        this.getPosition();
 
     } else {
-        console.log('typed: ' + keyCode);
-        this.getPosition();
+        console.log('invalid move or key: ' + keyCode);
     }
+
+    this.getPosition();
 
 };
 
@@ -121,6 +147,14 @@ var enemy4 = new Enemy(2, 1.5);
 
 var allEnemies = [enemy1, enemy2, enemy3, enemy4];
 var player = new Player();
+
+function collisionDetection(r1, r2){
+    return !(
+        r2.x > r1.brx || 
+        r2.brx < r1.x || 
+        r2.y > r1.bry ||
+        r2.bry < r1.y);
+};
 
 
 // This listens for key presses and sends the keys to your

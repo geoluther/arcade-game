@@ -1,0 +1,9 @@
+
+
+sources used:
+
+
+for collision detection:
+
+http://stackoverflow.com/questions/2752349/fast-rectangle-to-rectangle-intersection
+http://www.geeksforgeeks.org/find-two-rectangles-overlap/
