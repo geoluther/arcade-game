@@ -23,7 +23,7 @@ var Enemy = function(row, speed) {
     //set yOffset for top of bounding box
     this.yOffset = 72;
     this.xOffset = 0;
-}
+};
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -83,7 +83,7 @@ var Player = function() {
     // than the player character
     this.xOffset = 12;
     this.yOffset = 60;
-}
+};
 
 Player.prototype.update = function() {
     // change x, y to current col, row
