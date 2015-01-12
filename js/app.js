@@ -21,7 +21,7 @@ var Enemy = function(row, speed) {
     this.x = -101;
 
     //set yOffset for bounding box
-    this.yOffset = 75;
+    this.yOffset = 72;
 }
 
 // Update the enemy's position, required method for game
@@ -42,20 +42,19 @@ Enemy.prototype.update = function(dt) {
     }
 
     // set bounding box
-    this.boxWidth = 100;
-    this.boxHeight = 70;
-
     this.left = this.x; // left edge of current column
     this.top = this.y + this.yOffset;  // top edge of current column.
-    this.right = this.x + this.boxWidth;
-    this.bottom = this.y + this.boxHeight;
+    this.right = this.x + 101;
+    // set box height to 78 instead of 83
+    // to prevent collisions above or below rows
+    this.bottom = this.y + 78 + this.yOffset;
 
 }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.strokeStyle = "#FF0000";
-    ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
+    ctx.strokeRect(this.left, this.top, 101, 78);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
@@ -76,7 +75,7 @@ var Player = function() {
     // offset for bounding box
     this.yOffset = 60;
     // nudge box closer to character
-    this.xOffset = 16;
+    this.xOffset = 10;
 }
 
 Player.prototype.update = function() {
@@ -92,7 +91,8 @@ Player.prototype.update = function() {
     // right: the x-value of the right side of the rectangle
     // left: the x-value of the left side of the rectangle
 
-    this.boxWidth = 86 - this.xOffset;;
+
+    this.boxWidth = 90 - this.xOffset;;
     this.boxHeight = 83;
     this.left = this.x + this.xOffset;
     this.top = this.y + this.yOffset;
