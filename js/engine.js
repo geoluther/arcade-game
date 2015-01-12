@@ -164,9 +164,12 @@ var Engine = ( function(global) {
     * those sorts of things. It's only called once by the init() method.
     */
     function reset() {
-    // noop
-    console.log("called reset");
-    player.reset();
+        // noop
+        console.log("called reset");
+        allEnemies.forEach(function(enemy) {
+            enemy.reset();
+    });
+        player.reset();
     }
 
 

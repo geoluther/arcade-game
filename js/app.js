@@ -60,7 +60,10 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-
+Enemy.prototype.reset = function() {
+    // reset enemies back to left side of screen
+    this.x = -101;
+}
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -119,7 +122,6 @@ Player.prototype.getPosition = function() {
 }
 
 Player.prototype.reset = function() {
-    // body...
     this.col = 2;
     this.row = 5;
 };
