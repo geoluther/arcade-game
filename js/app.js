@@ -14,14 +14,15 @@ var Enemy = function(row, speed) {
     
     // set row + image offset
     // align image to middle of row
-    this.offset = 18;
-    this.y = row * 83 - this.offset;
+    this.rowOffset = 18;
+    this.y = row * 83 - this.rowOffset;
 
     // set initial enemy position left of canvas
     this.x = -101;
 
-    //set yOffset for bounding box
+    //set yOffset for top of bounding box
     this.yOffset = 72;
+    this.xOffset = 0;
 }
 
 // Update the enemy's position, required method for game
@@ -45,11 +46,9 @@ Enemy.prototype.update = function(dt) {
     this.boxWidth = 100;
     this.boxHeight = 75;
 
-    this.left = this.x; // left edge of current column
+    this.left = this.x + this.xOffset; // left edge of current column
     this.top = this.y + this.yOffset;  // top edge of current column.
     this.right = this.x + this.boxWidth;
-    // set box height to 78 instead of 83
-    // to prevent collisions above or below rows
     this.bottom = this.y + this.boxHeight + this.yOffset;
 
 }
@@ -57,7 +56,7 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.strokeStyle = "#FF0000";
-    ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
+    // ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
@@ -76,9 +75,11 @@ var Player = function() {
     this.rowOffset = 7;
 
     // offset for bounding box
-    this.yOffset = 60;
-    // nudge box closer to character
+    // move top and left side closer
+    // since top of image is much higher
+    // than the player character
     this.xOffset = 12;
+    this.yOffset = 60;
 }
 
 Player.prototype.update = function() {
@@ -96,6 +97,7 @@ Player.prototype.update = function() {
 
     this.boxWidth = 88 - this.xOffset;;
     this.boxHeight = 80;
+
     this.left = this.x + this.xOffset;
     this.top = this.y + this.yOffset;
     this.right = this.x + this.boxWidth;
@@ -103,8 +105,8 @@ Player.prototype.update = function() {
 }
 
 Player.prototype.render = function() {
-    ctx.strokeStyle = "#FF0000";
-    ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
+    // ctx.strokeStyle = "#FF0000";
+    // ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
