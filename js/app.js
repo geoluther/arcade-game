@@ -3,26 +3,29 @@
 // entity class with render function
 
 // Enemies our player must avoid
-var Enemy = function(row, speed) {
+var Enemy = function(row) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.speed = speed;
     this.sprite = 'images/enemy-bug.png';
-    
-    // set row + image offset
+
+    // set initial speed of enemy
+    this.speed = ( Math.random() * 2 + 1).toFixed(2);
+
     // align image to middle of row
     this.rowOffset = 18;
     this.y = row * 83 - this.rowOffset;
 
-    // set initial enemy position left of canvas
-    this.x = -101;
+    // set initial enemy position off canvas
+    //this.x = -101;
+    this.x = Math.floor(( Math.random() * 300 + 101)) * -1;
 
     //set yOffset for top of bounding box
     this.yOffset = 72;
     this.xOffset = 0;
+
 };
 
 // Update the enemy's position, required method for game
@@ -37,9 +40,10 @@ Enemy.prototype.update = function(dt) {
     if (this.x < 505 ) {
         this.x = this.x + (100 * dt) * this.speed;
     }
-    // reset x to left side of screen if wrapped
+    // if offscreen, reset speed, starting point
     else {
-        this.x = -101;
+         this.x = Math.floor(( Math.random() * 300 + 101)) * -1;
+        this.speed = ( Math.random() * 2 + 1).toFixed(2);
     }
 
     // set bounding box
@@ -199,12 +203,13 @@ intersectRect = function(r1, r2) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var enemy1 = new Enemy(1, 1);
-var enemy2 = new Enemy(2, 2);
-var enemy3 = new Enemy(3, 1.25);
-var enemy4 = new Enemy(2, 1.5);
+var enemy1 = new Enemy(1);
+var enemy2 = new Enemy(2);
+var enemy3 = new Enemy(3);
+var enemy4 = new Enemy(2);
+var enemy5 = new Enemy(1);
 
-var allEnemies = [enemy1, enemy2, enemy3, enemy4];
+var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 var player = new Player();
 
 
