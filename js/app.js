@@ -12,21 +12,27 @@ var Enemy = function(row) {
     this.sprite = 'images/enemy-bug.png';
 
     // set initial speed of enemy
-    this.speed = ( Math.random() * 2 + 1).toFixed(2);
+    this.setSpeed();
+    // set initial X position of enemy
+    this.initX();
 
     // align image to middle of row
     this.rowOffset = 18;
     this.y = row * 83 - this.rowOffset;
-
-    // set initial enemy position off canvas
-    //this.x = -101;
-    this.x = Math.floor(( Math.random() * 300 + 101)) * -1;
 
     //set yOffset for top of bounding box
     this.yOffset = 72;
     this.xOffset = 0;
 
 };
+
+Enemy.prototype.setSpeed = function() {
+    this.speed = this.speed = ( Math.random() * 2 + 1).toFixed(2);
+}
+
+Enemy.prototype.initX = function (){
+    this.x = Math.floor(( Math.random() * 300 + 101)) * -1;
+}
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -42,8 +48,8 @@ Enemy.prototype.update = function(dt) {
     }
     // if offscreen, reset speed, starting point
     else {
-         this.x = Math.floor(( Math.random() * 300 + 101)) * -1;
-        this.speed = ( Math.random() * 2 + 1).toFixed(2);
+        this.initX();
+        this.setSpeed();
     }
 
     // set bounding box
@@ -78,7 +84,8 @@ var Player = function() {
     this.col = 2;
     this.row = 5;
 
-    // nudge player up a bit, because image size
+    // nudge player graphic 
+    // up to middle of the row
     this.rowOffset = 7;
 
     // offset for bounding box
