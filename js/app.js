@@ -11,9 +11,11 @@ var Enemy = function(row) {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 
-    // set initial speed of enemy
+    // set initial speed and x of enemy
+    this.x ;
+    this.speed;
+
     this.setSpeed();
-    // set initial X position of enemy
     this.initX();
 
     // align image to middle of row
@@ -27,11 +29,11 @@ var Enemy = function(row) {
 };
 
 Enemy.prototype.setSpeed = function() {
-    this.speed = this.speed = ( Math.random() * 2 + 1).toFixed(2);
+    this.speed = ( Math.random() * 2 + 1 ).toFixed(2);
 }
 
-Enemy.prototype.initX = function (){
-    this.x = Math.floor(( Math.random() * 300 + 101)) * -1;
+Enemy.prototype.initX = function() {
+    this.x = Math.floor(( Math.random() * 300 + 101 )) * -1;
 }
 
 // Update the enemy's position, required method for game
@@ -65,14 +67,15 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.strokeStyle = "#FF0000";
+    // ctx.strokeStyle = "#FF0000";
     // ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 Enemy.prototype.reset = function() {
     // reset enemies back to left side of screen
-    this.x = -101;
+    this.initX();
+    this.setSpeed();
 }
 // Now write your own player class
 // This class requires an update(), render() and
