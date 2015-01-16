@@ -15,6 +15,8 @@ var Enemy = function(row) {
     this.x ;
     this.speed;
 
+    // initialize enemy postition to origin
+    // assign enemy speed
     this.reset();
 
     // align image to middle of row
@@ -41,6 +43,7 @@ Enemy.prototype.initX = function() {
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
+
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -86,11 +89,14 @@ Enemy.prototype.reset = function() {
 var Player = function() {
     this.sprite = 'images/char-boy.png';
     this.score = 0;
+    this.lives = 3;
     // initial position
     this.col;
     this.row;
 
+    // initialize player postition to origin
     this.reset();
+
     // nudge player graphic 
     // up to middle of the row
     this.rowOffset = 7;
