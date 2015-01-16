@@ -11,12 +11,11 @@ var Enemy = function(row) {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 
-    // set initial speed and x of enemy
+    // initial vars
     this.x ;
     this.speed;
 
-    this.setSpeed();
-    this.initX();
+    this.reset();
 
     // align image to middle of row
     this.rowOffset = 18;
@@ -26,10 +25,14 @@ var Enemy = function(row) {
     this.yOffset = 72;
     this.xOffset = 0;
 
+    // bounding box hight and width
+    this.boxWidth = 100;
+    this.boxHeight = 75;
+
 };
 
 Enemy.prototype.setSpeed = function() {
-    this.speed = ( Math.random() * 2 + 1 ).toFixed(2);
+    this.speed = ( Math.random() * 3 + 1 ).toFixed(2);
 }
 
 Enemy.prototype.initX = function() {
@@ -50,13 +53,10 @@ Enemy.prototype.update = function(dt) {
     }
     // if offscreen, reset speed, starting point
     else {
-        this.initX();
-        this.setSpeed();
+        this.reset();
     }
 
-    // set bounding box
-    this.boxWidth = 100;
-    this.boxHeight = 75;
+    // update bounding box
 
     this.left = this.x + this.xOffset; // left edge of current column
     this.top = this.y + this.yOffset;  // top edge of current column.
@@ -77,16 +77,20 @@ Enemy.prototype.reset = function() {
     this.initX();
     this.setSpeed();
 }
+
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 
 var Player = function() {
     this.sprite = 'images/char-boy.png';
+    this.score = 0;
     // initial position
-    this.col = 2;
-    this.row = 5;
+    this.col;
+    this.row;
 
+    this.reset();
     // nudge player graphic 
     // up to middle of the row
     this.rowOffset = 7;
@@ -97,6 +101,8 @@ var Player = function() {
     // than the player character
     this.xOffset = 12;
     this.yOffset = 60;
+    this.boxWidth = 88 - this.xOffset;;
+    this.boxHeight = 80;
 };
 
 Player.prototype.update = function() {
@@ -112,9 +118,6 @@ Player.prototype.update = function() {
     // right: the x-value of the right side of the rectangle
     // left: the x-value of the left side of the rectangle
 
-    this.boxWidth = 88 - this.xOffset;;
-    this.boxHeight = 80;
-
     this.left = this.x + this.xOffset;
     this.top = this.y + this.yOffset;
     this.right = this.x + this.boxWidth;
@@ -128,6 +131,7 @@ Player.prototype.render = function() {
 }
 
 
+// just a test function
 Player.prototype.getPosition = function() {
     console.log('Player Position: (col:' + this.col + ',row:' 
         + this.row + ')');
@@ -186,6 +190,11 @@ function checkCollisions() {
             }
         });
 
+        if (player.row === 0) {
+            player.score += 1;
+            collision = true;
+            console.log("score: ", player.score);
+        }
         // bug: only tells you if there was a collision
         // doesn't break at collison
         // doesn't report where collision was
