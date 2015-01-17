@@ -164,7 +164,7 @@ var Engine = ( function(global) {
     */
     function reset() {
         // noop
-        console.log("called reset");
+        console.log("resetting...");
         allEnemies.forEach(function(enemy) {
             enemy.reset();
     });

@@ -181,7 +181,7 @@ Player.prototype.handleInput = function(keyCode) {
 
     // buggy, shows previous, not current location
     // since update isn't called yet.
-    this.getPosition();
+    // this.getPosition();
 }
 
 function checkCollisions() {
