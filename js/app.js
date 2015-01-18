@@ -150,6 +150,14 @@ Player.prototype.reset = function() {
     this.row = 5;
 };
 
+Player.prototype.updateColumn = function(x) {
+    this.col = this.col + x;
+};
+
+Player.prototype.updateRow = function(x) {
+    this.row = this.row + x;
+};
+
 
 Player.prototype.handleInput = function(keyCode) {
     // refactor to switch?
@@ -157,22 +165,22 @@ Player.prototype.handleInput = function(keyCode) {
 
     if ( keyCode === "left") {
         if ( this.col > 0 ) {
-            this.col = this.col - 1;
-            }
+            this.updateColumn(-1);
+        }
 
     } else if ( keyCode === "right") {
         if ( this.col < 4 ) {
-            this.col = this.col + 1;
+            this.updateColumn(1);
         }
 
     } else if ( keyCode === "up") {
         if ( this.row > 0 ) {
-            this.row = this.row - 1;
+            this.updateRow(-1);
         }
 
     } else if ( keyCode === "down") {
         if ( this.row < 5 ) { 
-            this.row = this.row + 1;
+            this.updateRow(1);
         }
 
     } else {
