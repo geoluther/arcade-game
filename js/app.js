@@ -3,6 +3,43 @@
 // entity class with render function
 
 // Enemies our player must avoid
+
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+// Math.floor(Math.random() * (max - min)) + min;
+
+var Gem = function() {
+
+	// var color = Math.floor(Math.random() * (3 - 0)) + 0;
+
+	// switch (color) {
+ //    	case "0":
+    this.sprite = 'images/Gem-Blue.png';
+        	//break;
+        // case "1":
+        // 	this.sprite = 'images/Gem-Green.png';
+        // 	break;
+        // default:
+        // 	this.sprite = 'images/Gem-Orange.png';
+        // }
+
+	this.row = Math.floor(Math.random() * (4 - 1)) + 1;
+	this.column = Math.floor(Math.random() * (5 - 0)) + 0;
+	// this.row = 2;
+	// this.column = 3;
+
+	this.rowOffset = 18;
+	this.x = this.column * 101;
+    this.y = this.row * 83 - this.rowOffset;
+    console.log("i made a gem!");
+    console.log('row: ' + this.row + 'col: ' + this.column );
+
+};
+
+Gem.prototype.render = function () {
+	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
 var Enemy = function(row) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -109,6 +146,7 @@ var Player = function() {
     this.yOffset = 60;
     this.boxWidth = 88 - this.xOffset;;
     this.boxHeight = 80;
+
 };
 
 Player.prototype.update = function() {
@@ -134,6 +172,11 @@ Player.prototype.render = function() {
     // ctx.strokeStyle = "#FF0000";
     // ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    // ctx.fillText(this.score);
+    //ctx.font = "bold 40px sans-serif";
+    //ctx.font = "35px 'Press Play 2P'";
+    // ctx.fillText("Hello World", 20, 40);
+    //ctx.fillText("Score: " + this.score, 20, 50);
 }
 
 
@@ -244,6 +287,7 @@ var enemy5 = new Enemy(1);
 
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 var player = new Player();
+var gem = new Gem();
 
 
 

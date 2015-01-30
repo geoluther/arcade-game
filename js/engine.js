@@ -141,7 +141,9 @@ var Engine = ( function(global) {
             ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
+
         renderEntities();
+        doc.getElementById('score').innerHTML = 'SCORE: ' + player.score;
     }
 
     /* This function is called by the render function and is called on each game
@@ -152,10 +154,14 @@ var Engine = ( function(global) {
     /* Loop through all of the objects within the allEnemies array and call
     * the render function you have defined.
     */
+
+        gem.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
+
         player.render();
+
     }
 
     /* This function does nothing but it could have been a good place to
@@ -181,7 +187,8 @@ var Engine = ( function(global) {
     'images/water-block.png',
     'images/grass-block.png',
     'images/enemy-bug.png',
-    'images/char-boy.png'
+    'images/char-boy.png',
+    'images/Gem-Blue.png'
     ]);
     Resources.onReady(init);
 
