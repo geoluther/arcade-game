@@ -43,7 +43,7 @@ Gem.prototype.hide = function() {
     this.col = -1;
     this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
-};
+}
 
 
 // Enemies our player must avoid
@@ -186,15 +186,15 @@ Player.prototype.render = function() {
 Player.prototype.reset = function() {
     this.col = 2;
     this.row = 5;
-};
+}
 
 Player.prototype.updateColumn = function(x) {
     this.col = this.col + x;
-};
+}
 
 Player.prototype.updateRow = function(x) {
     this.row = this.row + x;
-};
+}
 
 
 Player.prototype.handleInput = function(keyCode) {
@@ -262,6 +262,7 @@ function checkCollisions() {
 // intersectRect returns a boolean indicating
 // whether the two rectangles 'r1' and 'r2'
 // intersect each other.
+
 intersectRect = function(r1, r2) {
     // return a boolean value indicating whether 'r1' and 'r2'
     // intersect each other.
