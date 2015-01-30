@@ -156,6 +156,7 @@ var Engine = ( function(global) {
     */
 
         gem.render();
+
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -175,6 +176,7 @@ var Engine = ( function(global) {
             enemy.reset();
     });
         player.reset();
+        gem.reset();
     }
 
 

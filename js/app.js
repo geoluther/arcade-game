@@ -24,20 +24,25 @@ var Gem = function() {
         // }
 
 	this.row = Math.floor(Math.random() * (4 - 1)) + 1;
-	this.column = Math.floor(Math.random() * (5 - 0)) + 0;
-	// this.row = 2;
-	// this.column = 3;
+	this.col = Math.floor(Math.random() * (5 - 0)) + 0;
 
 	this.rowOffset = 18;
-	this.x = this.column * 101;
+	this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
-    console.log("i made a gem!");
-    console.log('row: ' + this.row + 'col: ' + this.column );
 
+    console.log("i made a gem!");
+    console.log('row: ' + this.row + 'col: ' + this.col );
 };
 
 Gem.prototype.render = function () {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Gem.prototype.reset = function() {
+	this.row = Math.floor(Math.random() * (4 - 1)) + 1;
+	this.column = Math.floor(Math.random() * (5 - 0)) + 0;
+	this.x = this.column * 101;
+    this.y = this.row * 83 - this.rowOffset;
 }
 
 var Enemy = function(row) {
@@ -172,11 +177,6 @@ Player.prototype.render = function() {
     // ctx.strokeStyle = "#FF0000";
     // ctx.strokeRect(this.left, this.top, this.boxWidth, this.boxHeight);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    // ctx.fillText(this.score);
-    //ctx.font = "bold 40px sans-serif";
-    //ctx.font = "35px 'Press Play 2P'";
-    // ctx.fillText("Hello World", 20, 40);
-    //ctx.fillText("Score: " + this.score, 20, 50);
 }
 
 
@@ -252,6 +252,11 @@ function checkCollisions() {
             collision = true;
             console.log("score: ", player.score);
         }
+
+        if (colIntersect(player, gem) ) {
+        	console.log("player intersects with gem");
+        	player.score += 1;
+        }
         // bug: only tells you if there was a collision
         // doesn't break at collison
         // doesn't report where collision was
@@ -271,6 +276,12 @@ intersectRect = function(r1, r2) {
              r2.right < r1.left ||
              r2.top > r1.bottom ||
              r2.bottom < r1.top);
+}
+
+// takes player and gem
+colIntersect = function(player, gem) {
+	return ( player.row === gem.row &&
+		     player.col === gem.col);
 }
 
 
