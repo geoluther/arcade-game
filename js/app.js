@@ -1,6 +1,4 @@
 
-// to add:
-// entity class with render function
 
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
@@ -12,7 +10,6 @@ var Gem = function() {
     
     //init position
     this.reset();
-
     console.log("i made a gem!");
     console.log('row: ' + this.row + 'col: ' + this.col );
 };
@@ -27,7 +24,6 @@ Gem.prototype.reset = function() {
 	this.col = Math.floor(Math.random() * (5 - 0)) + 0;
 	this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
-	
 	
 	var color = Math.floor(Math.random() * (3 - 0)) + 0;
 	console.log('gem init color: ' + color);
@@ -44,7 +40,7 @@ Gem.prototype.reset = function() {
 
 Gem.prototype.hide = function() {
 	this.row = -1;
-	this.col = -2;
+	this.col = -1;
 	this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
 };
@@ -187,12 +183,6 @@ Player.prototype.render = function() {
 }
 
 
-// just a test function
-getPosition = function() {
-	console.log("Player: " + player.row + ', ' + player.col);
-	console.log("Gem: " + gem.row + ', ' + gem.col);
-}
-
 Player.prototype.reset = function() {
     this.col = 2;
     this.row = 5;
@@ -235,7 +225,7 @@ Player.prototype.handleInput = function(keyCode) {
         console.log('invalid move or key: ' + keyCode);
     }
 
-    getPosition();
+    // getPosition();
 }
 
 function checkCollisions() {
@@ -265,9 +255,7 @@ function checkCollisions() {
  			allGems[i].hide();
  		}
 	}
-        // bug: only tells you if there was a collision
-        // doesn't break at collison
-        // doesn't report where collision was
+        // doesn't know where collision was
         return collision;
     }
 
@@ -292,7 +280,13 @@ colIntersect = function(player, gem) {
 		     player.col === gem.col);
 }
 
-
+// show position of player and gems
+getPosition = function() {
+	console.log("Player: " + player.row + ', ' + player.col);
+	for (var i = allGems.length - 1; i >= 0; i--) {
+		console.log("Gem: " + allGems[i].row + ', ' + allGems[i].col);
+	}
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
