@@ -2,8 +2,6 @@
 // to add:
 // entity class with render function
 
-// Enemies our player must avoid
-
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
 // Math.floor(Math.random() * (max - min)) + min;
@@ -39,11 +37,15 @@ Gem.prototype.render = function () {
 }
 
 Gem.prototype.reset = function() {
+
 	this.row = Math.floor(Math.random() * (4 - 1)) + 1;
-	this.column = Math.floor(Math.random() * (5 - 0)) + 0;
-	this.x = this.column * 101;
+	this.col = Math.floor(Math.random() * (5 - 0)) + 0;
+	this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
 }
+
+
+// Enemies our player must avoid
 
 var Enemy = function(row) {
     // Variables applied to each of our instances go here,
@@ -181,11 +183,9 @@ Player.prototype.render = function() {
 
 
 // just a test function
-Player.prototype.getPosition = function() {
-    console.log('Player Position: (col:' + this.col + ',row:' 
-        + this.row + ')');
-    console.log('left, top: ' + this.x + ',' + this.y );
-    console.log('right, bottom: ' + this.right + ',' + this.bottom );
+getPosition = function() {
+	console.log("Player: " + player.row + ', ' + player.col);
+	console.log("Gem: " + gem.row + ', ' + gem.col);
 }
 
 Player.prototype.reset = function() {
@@ -230,33 +230,35 @@ Player.prototype.handleInput = function(keyCode) {
         console.log('invalid move or key: ' + keyCode);
     }
 
-    // buggy, shows previous, not current location
-    // since update isn't called yet.
-    // this.getPosition();
+    getPosition();
 }
 
 function checkCollisions() {
         // console.log('in check collision');
         // loop through enemies, check pos with player
         // var result = false;
-        var collision = false;
-        allEnemies.forEach(function(enemy) {
-            if ( intersectRect(enemy, player) ) {
-             /// console.log("objects collide");
-             collision = true;
-            }
-        });
-
-        if (player.row === 0) {
-            player.score += 1;
-            collision = true;
-            console.log("score: ", player.score);
+    var collision = false;
+    allEnemies.forEach(function(enemy) {
+        if ( intersectRect(enemy, player) ) {
+         /// console.log("objects collide");
+         collision = true;
         }
+    });
 
-        if (colIntersect(player, gem) ) {
-        	console.log("player intersects with gem");
-        	player.score += 1;
-        }
+    if (player.row === 0) {
+        player.score += 1;
+        collision = true;
+        console.log("score: ", player.score);
+    }
+
+
+ 	for (var i = 0, len = allGems.length; i < len; i++) {
+ 		if ( colIntersect(allGems[i], player) ){
+ 			console.log("gem + player");
+ 			player.score += 5;
+ 			allGems.pop();
+ 		}
+	}
         // bug: only tells you if there was a collision
         // doesn't break at collison
         // doesn't report where collision was
@@ -298,8 +300,9 @@ var enemy5 = new Enemy(1);
 
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 var player = new Player();
-var gem = new Gem();
 
+var gem = new Gem();
+var allGems = [gem];
 
 
 // This listens for key presses and sends the keys to your
