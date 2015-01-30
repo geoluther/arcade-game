@@ -180,7 +180,10 @@ var Engine = ( function(global) {
             enemy.reset();
     });
         player.reset();
-        gem.reset();
+        
+        allGems.forEach(function(gem) {
+            gem.reset();
+        });
     }
 
 

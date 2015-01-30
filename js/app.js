@@ -11,22 +11,19 @@ var Gem = function() {
 	// var color = Math.floor(Math.random() * (3 - 0)) + 0;
 
 	// switch (color) {
- //    	case "0":
-    this.sprite = 'images/Gem-Blue.png';
-        	//break;
+	// 	case "0":
+		this.sprite = 'images/Gem-Blue.png';
+        
         // case "1":
-        // 	this.sprite = 'images/Gem-Green.png';
-        // 	break;
+        // this.sprite = 'images/Gem-Green.png';
         // default:
         // 	this.sprite = 'images/Gem-Orange.png';
         // }
 
-	this.row = Math.floor(Math.random() * (4 - 1)) + 1;
-	this.col = Math.floor(Math.random() * (5 - 0)) + 0;
-
 	this.rowOffset = 18;
-	this.x = this.col * 101;
-    this.y = this.row * 83 - this.rowOffset;
+    
+    //init position
+    this.reset();
 
     console.log("i made a gem!");
     console.log('row: ' + this.row + 'col: ' + this.col );
@@ -42,7 +39,15 @@ Gem.prototype.reset = function() {
 	this.col = Math.floor(Math.random() * (5 - 0)) + 0;
 	this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
+
 }
+
+Gem.prototype.hide = function() {
+	this.row = -1;
+	this.col = -2;
+	this.x = this.col * 101;
+    this.y = this.row * 83 - this.rowOffset;
+};
 
 
 // Enemies our player must avoid
@@ -238,6 +243,7 @@ function checkCollisions() {
         // loop through enemies, check pos with player
         // var result = false;
     var collision = false;
+
     allEnemies.forEach(function(enemy) {
         if ( intersectRect(enemy, player) ) {
          /// console.log("objects collide");
@@ -255,8 +261,8 @@ function checkCollisions() {
  	for (var i = 0, len = allGems.length; i < len; i++) {
  		if ( colIntersect(allGems[i], player) ){
  			console.log("gem + player");
- 			player.score += 5;
- 			allGems.pop();
+ 			player.score += 1;
+ 			allGems[i].hide();
  		}
 	}
         // bug: only tells you if there was a collision
@@ -302,7 +308,8 @@ var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 var player = new Player();
 
 var gem = new Gem();
-var allGems = [gem];
+var gem2 = new Gem();
+var allGems = [gem, gem2];
 
 
 // This listens for key presses and sends the keys to your
