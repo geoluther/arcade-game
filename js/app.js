@@ -8,18 +8,6 @@
 
 var Gem = function() {
 
-	// var color = Math.floor(Math.random() * (3 - 0)) + 0;
-
-	// switch (color) {
-	// 	case "0":
-		this.sprite = 'images/Gem-Blue.png';
-        
-        // case "1":
-        // this.sprite = 'images/Gem-Green.png';
-        // default:
-        // 	this.sprite = 'images/Gem-Orange.png';
-        // }
-
 	this.rowOffset = 18;
     
     //init position
@@ -39,6 +27,18 @@ Gem.prototype.reset = function() {
 	this.col = Math.floor(Math.random() * (5 - 0)) + 0;
 	this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
+	
+	
+	var color = Math.floor(Math.random() * (3 - 0)) + 0;
+	console.log('gem init color: ' + color);
+
+	if ( color === 0 ) {
+		this.sprite = 'images/Gem-Blue.png';
+	} else if ( color === 1 ) {
+        this.sprite = 'images/Gem-Green.png';
+	} else {
+        this.sprite = 'images/Gem-Orange.png';
+	}
 
 }
 
