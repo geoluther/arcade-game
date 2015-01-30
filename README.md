@@ -1,11 +1,14 @@
 frontend-nanodegree-arcade-game
 ===============================
 
+2014-01-30
 
-2014-01-14
 To Play: Use arrow keys to move the character
 
-Collisions will return player back to start position and reset enemies.
+Collisions will return player back to start position and reset enemies and gems.
+
+reaching water gives 1 point.
+collecting a gem gives one point.
 
 have fun!
 
