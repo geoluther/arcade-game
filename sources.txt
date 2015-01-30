@@ -1,13 +1,9 @@
-
-
 sources used:
-
 
 for collision detection:
 
 http://stackoverflow.com/questions/2752349/fast-rectangle-to-rectangle-intersection
 http://www.geeksforgeeks.org/find-two-rectangles-overlap/
-
 
 bool doOverlap(Point l1, Point r1, Point l2, Point r2)
 {
