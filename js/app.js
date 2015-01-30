@@ -6,7 +6,7 @@
 
 var Gem = function() {
 
-	this.rowOffset = 18;
+    this.rowOffset = 18;
     
     //init position
     this.reset();
@@ -15,33 +15,33 @@ var Gem = function() {
 };
 
 Gem.prototype.render = function () {
-	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 Gem.prototype.reset = function() {
 
-	this.row = Math.floor(Math.random() * (4 - 1)) + 1;
-	this.col = Math.floor(Math.random() * (5 - 0)) + 0;
-	this.x = this.col * 101;
+    this.row = Math.floor(Math.random() * (4 - 1)) + 1;
+    this.col = Math.floor(Math.random() * (5 - 0)) + 0;
+    this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
-	
-	var color = Math.floor(Math.random() * (3 - 0)) + 0;
-	console.log('gem init color: ' + color);
+    
+    var color = Math.floor(Math.random() * (3 - 0)) + 0;
+    console.log('gem init color: ' + color);
 
-	if ( color === 0 ) {
-		this.sprite = 'images/Gem-Blue.png';
-	} else if ( color === 1 ) {
+    if ( color === 0 ) {
+        this.sprite = 'images/Gem-Blue.png';
+    } else if ( color === 1 ) {
         this.sprite = 'images/Gem-Green.png';
-	} else {
+    } else {
         this.sprite = 'images/Gem-Orange.png';
-	}
+    }
 
 }
 
 Gem.prototype.hide = function() {
-	this.row = -1;
-	this.col = -1;
-	this.x = this.col * 101;
+    this.row = -1;
+    this.col = -1;
+    this.x = this.col * 101;
     this.y = this.row * 83 - this.rowOffset;
 };
 
@@ -248,13 +248,13 @@ function checkCollisions() {
     }
 
 
- 	for (var i = 0, len = allGems.length; i < len; i++) {
- 		if ( colIntersect(allGems[i], player) ){
- 			console.log("gem + player");
- 			player.score += 1;
- 			allGems[i].hide();
- 		}
-	}
+    for (var i = 0, len = allGems.length; i < len; i++) {
+        if ( colIntersect(allGems[i], player) ){
+            console.log("gem + player");
+            player.score += 1;
+            allGems[i].hide();
+        }
+    }
         // doesn't know where collision was
         return collision;
     }
@@ -276,16 +276,16 @@ intersectRect = function(r1, r2) {
 
 // takes player and gem
 colIntersect = function(player, gem) {
-	return ( player.row === gem.row &&
-		     player.col === gem.col);
+    return ( player.row === gem.row &&
+             player.col === gem.col);
 }
 
 // show position of player and gems
 getPosition = function() {
-	console.log("Player: " + player.row + ', ' + player.col);
-	for (var i = allGems.length - 1; i >= 0; i--) {
-		console.log("Gem: " + allGems[i].row + ', ' + allGems[i].col);
-	}
+    console.log("Player: " + player.row + ', ' + player.col);
+    for (var i = allGems.length - 1; i >= 0; i--) {
+        console.log("Gem: " + allGems[i].row + ', ' + allGems[i].col);
+    }
 }
 
 // Now instantiate your objects.
